@@ -66,6 +66,12 @@ private[spark] class SigarSource() extends Source {
   })
 
   register(metricRegistry, new StatefulMetric {
+    override val name = "cpu.host.nice"
+    override def momentaryValue = sigar.getCpu.getNice
+    override val unitConversion = tckConvertsion
+  })
+
+  register(metricRegistry, new StatefulMetric {
     override val name = "cpu.host.total"
     override def momentaryValue = sigar.getCpu.getTotal
     override val unitConversion = tckConvertsion
