@@ -45,48 +45,54 @@ private[spark] class SigarSource() extends Source {
   })
 
   // TODO: detailed explanation: http://stackoverflow.com/a/16736599/443366
-  val tckConvertsion = 1000f / Process("getconf CLK_TCK").lines.head.toInt
+  val tckConversion = 1000f / Process("getconf CLK_TCK").lines.head.toInt
 
   register(metricRegistry, new StatefulMetric {
     override val name = "cpu.host.sys"
     override def momentaryValue = sigar.getCpu.getSys
-    override val unitConversion = tckConvertsion
+    override val unitConversion = tckConversion
   })
 
   register(metricRegistry, new StatefulMetric {
     override val name = "cpu.host.user"
     override def momentaryValue = sigar.getCpu.getUser
-    override val unitConversion = tckConvertsion
+    override val unitConversion = tckConversion
   })
 
   register(metricRegistry, new StatefulMetric {
     override val name = "cpu.host.wait"
     override def momentaryValue = sigar.getCpu.getWait
-    override val unitConversion = tckConvertsion
+    override val unitConversion = tckConversion
+  })
+
+  register(metricRegistry, new StatefulMetric {
+    override val name = "cpu.host.nice"
+    override def momentaryValue = sigar.getCpu.getNice
+    override val unitConversion = tckConversion
   })
 
   register(metricRegistry, new StatefulMetric {
     override val name = "cpu.host.total"
     override def momentaryValue = sigar.getCpu.getTotal
-    override val unitConversion = tckConvertsion
+    override val unitConversion = tckConversion
   })
 
   register(metricRegistry, new StatefulMetric {
     override val name = "cpu.process.sys"
     override def momentaryValue = sigar.getProcCpu(pid).getSys
-    override val unitConversion = tckConvertsion
+    override val unitConversion = tckConversion
   })
 
   register(metricRegistry, new StatefulMetric {
     override val name = "cpu.process.user"
     override def momentaryValue = sigar.getProcCpu(pid).getUser
-    override val unitConversion = tckConvertsion
+    override val unitConversion = tckConversion
   })
 
   register(metricRegistry, new StatefulMetric {
     override val name = "cpu.process.total"
     override def momentaryValue = sigar.getProcCpu(pid).getTotal
-    override val unitConversion = tckConvertsion
+    override val unitConversion = tckConversion
   })
 
   register(metricRegistry, new Metric[Long] {
